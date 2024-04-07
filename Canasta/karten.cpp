@@ -10,12 +10,12 @@
 using std::array;
 using std::vector;
 
-// Card functions
-int Karte::wert()
+// gibt Wert der Karte zurück
+int Karte::wert() const
 {
     switch (rang)
     {
-        case 'X': return 50;
+        case '?': return 50;
         case 'K':
         case 'Q':
         case 'J':
@@ -29,11 +29,21 @@ int Karte::wert()
         case '2':
         case 'A': return 20;
         case '3': if (farbe == Karte::rot) return 100;
-        return 0;
     }
+    return 0;
 }
 
-// Deck functions
+//vergleiche zwei Karten
+bool Karte::operator==(const Karte k) const
+{
+    return (rang == k.rang && farbe == k.farbe);
+}
+bool Karte::operator!=(const Karte k) const
+{
+    return (rang != k.rang || farbe != k.farbe);
+}
+
+// mischt das Deck
 void Deck::mischen()
 {
     std::shuffle(_karten.begin(), _karten.end(), Random::mt);
@@ -56,6 +66,7 @@ Deck::Deck()
     mischen();
 }
 
+//teile Karte aus
 Karte Deck::verteileKarte()
 {
     assert(_zaehlIndex < _anzahlKarten &&

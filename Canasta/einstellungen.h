@@ -1,3 +1,4 @@
+#pragma once
 namespace Einstellungen
 {
     constexpr int anzahlHandkarten {13};

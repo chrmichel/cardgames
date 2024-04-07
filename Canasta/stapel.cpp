@@ -10,6 +10,11 @@ Auslage::Auslage(Karte::Rang _rang):
 {
 }
 
+std::size_t Auslage::anzahl()
+{
+    return _karten.size();
+}
+
 bool Auslage::anlegen(Karte karte)
 {
     //wenn karte gleichen Rang hat wie Auslage
@@ -23,7 +28,7 @@ bool Auslage::anlegen(Karte karte)
     {
         _karten.push_back(karte);
         _anzahlJoker++;
-        _rein = false;
+        rein = false;
     }
 
     if (_karten.size() >= Einstellungen::anzahlKartenCanasta)
@@ -37,7 +42,7 @@ bool Auslage::anlegen(Karte karte)
 int Auslage::wert()
 {
     int summe {0};
-    if(istCanasta && _rein) 
+    if(istCanasta && rein) 
     {
         if(Einstellungen::jokerCanasta)
             summe += Einstellungen::jokerCanastaPunkte;
@@ -53,7 +58,7 @@ int Auslage::wert()
     return summe;
 }
 
-Karte Stapel::letzteKarte()
+Karte Stapel::letzteKarte() const
 {
     return karten[karten.size()-1];
 }

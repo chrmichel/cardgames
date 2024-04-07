@@ -1,6 +1,7 @@
 #pragma once
 
 #include<array>
+#include<string_view>
 
 struct Karte
 {
@@ -20,6 +21,8 @@ struct Karte
         '3', '4', '5', '6', '7', '8', '9', 'Z', 'J', 'Q', 'K', 'A', '2', '?'
     };
 
+    static constexpr char keinRang {'x'};
+
     static constexpr std::array rangAnzahl {
         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3
     };
@@ -30,35 +33,38 @@ struct Karte
 
     enum Farbe
     {
-        rot, schwarz, resetFarbe, anzahlFarben
+        rot, schwarz, anzahlFarben
     };
 
     static constexpr std::array alleFarben {
-        rot, schwarz, resetFarbe
+        rot, schwarz
     };
 
-    static constexpr std::array<std::string_view, anzahlFarben> farbCodes {
-        "\033[0;31m", "\033[0;30;47m", "\033[0m"
+    static constexpr std::array<std::string_view, anzahlFarben> farbNamen {
+        "rot", "schwarz"
     };
 
-    static_assert(alleFarben.size() == anzahlFarben);
-    static_assert(farbCodes.size() == anzahlFarben);
+    static_assert(farbNamen.size() == anzahlFarben);
     
     Rang rang{};
     Farbe farbe{};
 
-    int wert();
+    int wert() const;
+    bool operator==(const Karte) const;
+    bool operator!=(const Karte) const;
 };
+
+constexpr Karte LEEREKARTE {Karte::anzahlRaenge, Karte::anzahlFarben};
 
 class Deck
 {
-private:
-    static constexpr std::size_t _anzahlKarten {110};
-    std::array<Karte, _anzahlKarten> _karten {};
-    std::size_t _zaehlIndex {0};
-
 public:
     Deck();
     void mischen();
     Karte verteileKarte();
+
+private:
+    static constexpr std::size_t _anzahlKarten {110};
+    std::array<Karte, _anzahlKarten> _karten {};
+    std::size_t _zaehlIndex {0};
 };
